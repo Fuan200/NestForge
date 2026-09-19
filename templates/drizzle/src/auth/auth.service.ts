@@ -1,19 +1,27 @@
+import { Injectable } from '@nestjs/common';
+// nestforge:feature:auth:password
 import {
   ConflictException,
-  Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+// nestforge:feature:auth:password:end
 import {
   and,
   eq,
-  isNull,
 } from 'drizzle-orm';
+// nestforge:feature:redis,auth:password
+import { isNull } from 'drizzle-orm';
+// nestforge:feature:redis,auth:password:end
+// nestforge:feature:auth:password
 import * as bcrypt from 'bcryptjs';
+// nestforge:feature:auth:password:end
+import { randomUUID } from 'node:crypto';
+// nestforge:feature:redis,auth:password
 import {
   createHash,
   randomBytes,
-  randomUUID,
 } from 'node:crypto';
+// nestforge:feature:redis,auth:password:end
 import { Role } from '../common/constants/role.enum';
 import { InjectDatabase } from '../database/database.decorators';
 import type { DrizzleDatabase } from '../database/database.types';
@@ -22,9 +30,9 @@ import {
   users,
 } from '../database/schema';
 
-// nestforge:feature:auth:token
+// nestforge:feature:redis,auth:password,auth:token
 import { refreshTokens } from '../database/schema';
-// nestforge:feature:auth:token:end
+// nestforge:feature:redis,auth:password,auth:token:end
 
 // nestforge:feature:redis,auth:password
 import { MailService } from '../mail/mail.service';
@@ -623,9 +631,11 @@ export class AuthService {
     };
   }
 
+ // nestforge:feature:redis,auth:password
   private hashToken(token: string): string {
     return createHash('sha256')
       .update(token)
       .digest('hex');
   }
+  // nestforge:feature:redis,auth:password:end
 }
