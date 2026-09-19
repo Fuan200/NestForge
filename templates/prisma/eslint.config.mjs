@@ -25,6 +25,12 @@ export default [
       ...tseslint.configs.recommended.rules,
     },
   },
+  {
+    files: ['src/**/*.spec.ts', 'test/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+    },
+  },
   // nestforge:feature:language:typescript:end
   // nestforge:feature:language:javascript
   {
