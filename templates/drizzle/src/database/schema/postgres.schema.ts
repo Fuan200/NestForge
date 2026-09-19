@@ -1,10 +1,12 @@
 // nestforge:feature-file:database:postgres
 import {
+    // nestforge:feature:auth:session
     bigint,
+    text,
+    // nestforge:feature:auth:session:end
     index,
     pgEnum,
     pgTable,
-    text,
     timestamp,
     uniqueIndex,
     uuid,
