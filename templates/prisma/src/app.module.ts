@@ -1,4 +1,7 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+// nestforge:feature:auth:session
+import { MiddlewareConsumer, NestModule } from '@nestjs/common';
+// nestforge:feature:auth:session:end
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
 // nestforge:feature:redis
@@ -61,12 +64,16 @@ import { validateEnv } from './config/env.validation';
     MetricsModule,
   ],
 })
-export class AppModule implements NestModule {
+export class AppModule
+// nestforge:feature:auth:session
+implements NestModule
+// nestforge:feature:auth:session:end
+{
+  // nestforge:feature:auth:session
   configure(consumer: MiddlewareConsumer) {
-    // nestforge:feature:auth:session
     if (process.env.ENABLE_CSRF === 'true') {
       consumer.apply(CsrfMiddleware).forRoutes('*');
     }
-    // nestforge:feature:auth:session:end
   }
+  // nestforge:feature:auth:session:end
 }
