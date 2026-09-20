@@ -6,9 +6,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   DataSource,
-  IsNull,
   Repository,
 } from 'typeorm';
+// nestforge:feature:redis,auth:password,auth:token
+import { IsNull } from 'typeorm';
+// nestforge:feature:redis,auth:password,auth:token:end
 import * as bcrypt from 'bcryptjs';
 import { createHash, randomBytes } from 'crypto';
 import { UserEntity } from '../users/entities/user.entity';
