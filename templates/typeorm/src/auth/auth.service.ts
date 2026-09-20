@@ -1,8 +1,12 @@
+import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+// nestforge:feature:auth:password
 import {
   ConflictException,
-  Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import * as bcrypt from 'bcryptjs';
+// nestforge:feature:auth:password:end
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   DataSource,
@@ -11,14 +15,15 @@ import {
 // nestforge:feature:redis,auth:password,auth:token
 import { IsNull } from 'typeorm';
 // nestforge:feature:redis,auth:password,auth:token:end
-import * as bcrypt from 'bcryptjs';
+// nestforge:feature:redis,auth:password
 import { createHash, randomBytes } from 'crypto';
+// nestforge:feature:redis,auth:password:end
 import { UserEntity } from '../users/entities/user.entity';
 import { OAuthAccountEntity } from './entities/oauth-account.entity';
 
-// nestforge:feature:auth:token
+// nestforge:feature:redis,auth:password,auth:token
 import { RefreshTokenEntity } from './entities/refresh-token.entity';
-// nestforge:feature:auth:token:end
+// nestforge:feature:redis,auth:password,auth:token:end
 
 // nestforge:feature:redis,auth:password
 import { MailService } from '../mail/mail.service';
@@ -340,9 +345,11 @@ export class AuthService {
     };
   }
 
+  // nestforge:feature:redis,auth:password
   private hashToken(token: string): string {
     return createHash('sha256')
       .update(token)
       .digest('hex');
   }
+  // nestforge:feature:redis,auth:password:end
 }
