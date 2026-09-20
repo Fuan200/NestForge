@@ -1,10 +1,13 @@
+// nestforge:feature:auth:password
 import {
   ConflictException,
-  Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
+// nestforge:feature:auth:password:end
+// nestforge:feature:redis,auth:password
 import { createHash, randomBytes } from 'crypto';
+// nestforge:feature:redis,auth:password:end
 import { PrismaService } from '../database/prisma.service';
 // nestforge:feature:redis,auth:password
 import { MailService } from '../mail/mail.service';
@@ -217,8 +220,9 @@ export class AuthService {
       role: user.role,
     };
   }
-
+  // nestforge:feature:redis,auth:password
   private hashToken(token: string): string {
     return createHash('sha256').update(token).digest('hex');
   }
+  // nestforge:feature:redis,auth:password:end
 }

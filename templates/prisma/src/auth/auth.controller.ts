@@ -1,4 +1,7 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, UseGuards } from '@nestjs/common';
+// nestforge:feature:redis,auth:password
+import { Query } from '@nestjs/common';
+// nestforge:feature:redis,auth:password:end
 // nestforge:feature:swagger
 import { ApiExcludeEndpoint, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 // nestforge:feature:swagger:end
