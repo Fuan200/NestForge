@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Injectable } from '@nestjs/common';
 // nestforge:feature:auth:password
 import {
   ConflictException,
