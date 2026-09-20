@@ -1616,6 +1616,49 @@ test(
     },
 );
 
+test('generates language-specific ESLint configs for every ORM template', { concurrency: false }, async () => {
+    for (const orm of ['prisma', 'typeorm', 'drizzle'] as const) {
+        for (const language of ['typescript', 'javascript'] as const) {
+            await withGeneratedProject(
+                makeOptions({
+                    projectName: `eslint-${orm}-${language}`,
+                    orm,
+                    language,
+                }),
+                async (targetDir) => {
+                    const eslintConfig = await readFile(
+                        path.join(targetDir, 'eslint.config.mjs'),
+                        'utf8',
+                    );
+                    const packageJson = await fs.readJson(
+                        path.join(targetDir, 'package.json'),
+                    );
+
+                    assert.doesNotMatch(eslintConfig, /nestforge:feature:/);
+
+                    if (language === 'typescript') {
+                        assert.match(eslintConfig, /@typescript-eslint\/eslint-plugin/);
+                        assert.match(eslintConfig, /@typescript-eslint\/parser/);
+                        assert.match(eslintConfig, /files: \['src\/\*\*\/\*.ts', 'test\/\*\*\/\*.ts'\]/);
+                        assert.match(eslintConfig, /'@typescript-eslint\/no-explicit-any': 'off'/);
+                    } else {
+                        assert.match(eslintConfig, /files: \['src\/\*\*\/\*.js', 'test\/\*\*\/\*.js'\]/);
+                        assert.doesNotMatch(eslintConfig, /@typescript-eslint/);
+                        assert.equal(
+                            packageJson.devDependencies['@typescript-eslint/eslint-plugin'],
+                            undefined,
+                        );
+                        assert.equal(
+                            packageJson.devDependencies['@typescript-eslint/parser'],
+                            undefined,
+                        );
+                    }
+                },
+            );
+        }
+    }
+});
+
 test('generates a JavaScript project', { concurrency: false }, async () => {
     await withGeneratedProject(
         makeOptions({
